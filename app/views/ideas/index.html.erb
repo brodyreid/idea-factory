@@ -1,0 +1,22 @@
+<div class="row row-cols-1 g-4" style="padding: 50px;">
+<% @ideas.each do |idea| %>
+    <div class="col">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title"><%= idea.title %></h5>
+                <p class="card-text"><%= idea.description %></p>
+                <div class="d-flex align-items-baseline">
+                    <div class="p-2">
+                        <small class="text-muted">By <%= idea.user&.name || "[DELETED]" %></small>
+                        <a class="btn btn-outline-primary" href="/ideas/<%= idea.id %>">Reviews</a>
+                        <a class="btn btn-outline-primary" href="/">Like</a>
+                    </div>
+                    <div class="p-2">
+                        <p>Reviews: <%= idea.reviews.count %> | Likes: <%= idea.like_count %></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<% end %>
+</div>

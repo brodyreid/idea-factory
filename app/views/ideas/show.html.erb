@@ -1,0 +1,50 @@
+<div class="container" style="padding: 20px;">
+    <div class="card border-0">
+        <div class="card-body">
+            <h3 class="card-title"><%= @idea.title %></h3>
+            <p class="card-text"><%= @idea.description %></p>
+            <p class="card-text text-muted" style="font-size: small;">Posted <%= time_ago_in_words(@idea.created_at) %> ago by <%= @idea.user&.name || "[DELETED]" %></p>
+            <small class="card-text"><%= @idea.like_count %> likes</small>
+            <% if can?(:crud, @idea) %>
+            <div class="form-inline">
+                <div class="btn btn-outline-primary">
+                <%= link_to "Edit", edit_idea_path(@idea) %>
+                </div>
+                <div class="btn btn-outline-primary">
+                <%= link_to "Delete", @idea, method: :delete, data: {confirm: "Are you sure?"} %>
+                </div>
+            </div>
+            <% end %>
+        </div>
+    </div>
+
+    <div class="card-body">
+        <h5 class="card-title">Review</h5>
+        <div>
+        <%= form_with model: [@idea, @review], local: true do |form| %>
+            <%= form.text_area(:description, cols: 50, rows: 5, placeholder: "What's on your mind?") %>
+            <div>
+                <%= form.submit "Submit",  class: "btn btn-outline-primary" %>
+            </div>    
+        <% end %>
+        </div>
+    </div>
+
+    <div class="container">
+        <ul>
+            <% @reviews.each do |review| %>
+            <li style="list-style-type: none; padding-top: 20px;">
+                <p class="card-text" style="margin: 0;">
+                    <%= review.description %>
+                </p>
+                <p class="card-text text-muted" style="font-size: small;">
+                    Reviewed <%= time_ago_in_words(review.created_at) %> ago by <%= review.user&.name || "[DELETED]" %> 
+                    <% if can?(:crud, review) %>
+                        &#8226; <%= link_to "Delete", review_path(review), method: :delete, data: { confirm: "Are you sure?"} %>
+                    <% end %>
+                </p>
+            </li>
+            <% end %>
+        </ul>
+    </div>
+</div>

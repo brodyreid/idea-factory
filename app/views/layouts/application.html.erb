@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Idea Factory</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+<%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true%>
+<%= javascript_include_tag 'manifest', 'data-turbolinks-track' => true %>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-blue bg-light">
+      <div class="container-fluid">
+        <a class="navbar-brand " href="/">Idea Factory</a>
+        <div class="form-inline my-2 my-lg-0" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li>
+              <a class="nav-link mr-3" href="/ideas/new">New Idea</a>
+            </li>
+            <% if user_signed_in? %>
+              <li class="nav-link mr-3 text-primary">
+                Hello <%= current_user.name %>
+              </li>
+              <li class="nav-link mr-3">
+                <%= link_to "Sign Out", session_path, method: :delete, data: {confirm: "Log Out?"} %>
+              </li>
+            <% else %>
+            <li class="nav-item mr-3">
+              <a class="nav-link btn text-primary" href="/session/new">Sign In</a>
+            </li>
+            <li class="nav-item mr-3">
+              <a class="nav-link btn text-primary" href="/users/new">Sign Up</a>
+            </li>
+            <% end %>
+          </ul>
+          <hr>
+        </div>
+      </div>
+    </nav>
+    <% flash.each do |type, message| %>
+    <div class="container">
+      <span class="alert alert-<%= type %>" role="alert"><%= message %></span>
+    <% end %>
+    </div>
+  <%= yield %>
+  </body>
+</html>
